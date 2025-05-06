@@ -22,6 +22,16 @@
 
     let newItem = $state('');
     let newItemHigerPriority = $state(false);
+
+    function saveItem() {
+        if (newItem) {
+            items.push({
+                id: items.length + 1,
+                label: newItem
+            });
+            newItem = '';
+        }
+    };
 </script>
 
 <h1>{ header }</h1>
@@ -34,6 +44,6 @@
     type="text"
     placeholder="Add item"
     bind:value={newItem}
-/>{newItem}
+/>
 <input type="checkbox" bind:checked={newItemHigerPriority} />Higher Priority
-{newItemHigerPriority}
+<button class="btn btn-primary" onclick="{saveItem}">Save Item</button>
