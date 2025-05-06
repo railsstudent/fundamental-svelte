@@ -19,6 +19,9 @@
             label: '15 Strawberries'
         }
     ]);
+
+    let newItem = $state('');
+    let newItemHigerPriority = $state(false);
 </script>
 
 <h1>{ header }</h1>
@@ -27,3 +30,10 @@
         <li>{ item.id } - { item.label }</li>
     {/each}
 </ul>
+<input
+    type="text"
+    placeholder="Add item"
+    bind:value={newItem}
+/>{newItem}
+<input type="checkbox" bind:checked={newItemHigerPriority} />Higher Priority
+{newItemHigerPriority}
