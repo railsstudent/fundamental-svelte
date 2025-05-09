@@ -1,6 +1,6 @@
 <script lang="ts">
-    import './global.css';
-    let { children } = $props();
+	import './global.css';
+	let { children } = $props();
 </script>
 
-{@render children() }
+{@render children()}
