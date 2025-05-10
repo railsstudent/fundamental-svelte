@@ -1,17 +1,22 @@
 <script lang="ts">
+	type Item = { id: number; label: string; purchased: boolean; higherPriority: boolean };
+
 	let header = $state('Shopping List App');
 	let newItem = $state('');
-	let newItemHigerPriority = $state(false);
-	let items = $state([] as { id: number; label: string }[]);
+	let newItemHigherPriority = $state(false);
+	let items = $state([] as Item[]);
 	let isEditing = $state(false);
 
 	function saveItem() {
 		if (newItem) {
 			items.push({
 				id: items.length + 1,
-				label: newItem
+				label: newItem,
+				purchased: false,
+				higherPriority: newItemHigherPriority
 			});
 			newItem = '';
+			newItemHigherPriority = false;
 		}
 	}
 
@@ -23,6 +28,13 @@
 	function toggleEdit(value: boolean) {
 		isEditing = value;
 		newItem = '';
+		newItemHigherPriority = false;
+	}
+
+	function togglePurchased(item: Item) {
+		item.purchased = !item.purchased;
+		newItem = '';
+		newItemHigherPriority = false;
 	}
 </script>
 
@@ -43,8 +55,9 @@
 				id="higherPriority"
 				name="higherPriority"
 				type="checkbox"
-				bind:checked={newItemHigerPriority}
-			/>Higher Priority
+				bind:checked={newItemHigherPriority}
+			/>
+			<span style:font-weight={newItemHigherPriority ? 'bold' : 'normal'}> Higher Priority</span>
 		</label>
 		<button class="btn btn-primary" disabled={newItem.length < 5}>Save Item</button>
 	</form>
@@ -53,7 +66,12 @@
 {#if items.length > 0}
 	<ul>
 		{#each items as item (item.id)}
-			<li>{item.id} - {item.label}</li>
+			<div style="display: flex;">
+				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}>
+					{item.id} - {item.label}
+				</li>
+				<button class="btn" onclick={() => togglePurchased(item)}>Purchase</button>
+			</div>
 		{/each}
 	</ul>
 {:else}
