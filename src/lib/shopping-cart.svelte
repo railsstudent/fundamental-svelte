@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Icon from "@iconify/svelte";
+
 	type Item = { id: number; label: string; purchased: boolean; higherPriority: boolean };
 
 	let header = $state('Shopping List App');
@@ -67,10 +69,18 @@
 	<ul>
 		{#each items as item (item.id)}
 			<div style="display: flex;">
-				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}>
+				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}
+					style="margin-right: 0.5rem;"
+				>
 					{item.id} - {item.label}
 				</li>
-				<button class="btn" onclick={() => togglePurchased(item)}>Purchase</button>
+				<button class="btn" onclick={() => togglePurchased(item)} aria-label="purchase an item">
+					{#if !item.purchased}
+						<Icon icon="ic:baseline-check" />
+					{:else}
+						<Icon icon="ic:baseline-close" />
+					{/if}
+				</button>
 			</div>
 		{/each}
 	</ul>
