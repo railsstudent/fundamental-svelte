@@ -46,7 +46,7 @@
 				bind:checked={newItemHigerPriority}
 			/>Higher Priority
 		</label>
-		<button class="btn btn-primary">Save Item</button>
+		<button class="btn btn-primary" disabled={newItem.length < 5}>Save Item</button>
 	</form>
 {/if}
 
