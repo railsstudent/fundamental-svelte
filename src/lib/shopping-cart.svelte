@@ -38,6 +38,10 @@
 		newItem = '';
 		newItemHigherPriority = false;
 	}
+
+	function deleteItem(id: number) {
+	  items = items.filter(item => item.id !== id)
+	}
 </script>
 
 <div class="header">
@@ -68,10 +72,8 @@
 {#if items.length > 0}
 	<ul>
 		{#each items as item (item.id)}
-			<div style="display: flex;">
-				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}
-					style="margin-right: 0.5rem;"
-				>
+			<div class="list-item">
+				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}>
 					{item.id} - {item.label}
 				</li>
 				<button class="btn" onclick={() => togglePurchased(item)} aria-label="purchase an item">
@@ -81,9 +83,27 @@
 						<Icon icon="ic:baseline-close" />
 					{/if}
 				</button>
+
+				<button class="btn btn-cancel" onclick={() => deleteItem(item.id)} aria-label="delete an item">
+					<Icon icon="ic:baseline-remove" />
+				</button>
 			</div>
 		{/each}
 	</ul>
 {:else}
 	<p>Nothing to see here</p>
 {/if}
+
+<style>
+	div.list-item {
+		display: flex;
+	}
+
+	div.list-item > li {
+		margin-right: 0.5rem;
+	}
+
+	div.list-item > button {
+		margin-right: 0.25rem;
+	}
+</style>
