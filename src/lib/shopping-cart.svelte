@@ -1,12 +1,22 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte';
 
 	type Item = { id: number; label: string; purchased: boolean; higherPriority: boolean };
 
 	let header = $state('Shopping List App');
 	let newItem = $state('');
+
 	let newItemHigherPriority = $state(false);
 	let items = $state([] as Item[]);
+	let reversed_items = $derived([...items].reverse());
+	let num_items_purchased = $derived(
+		items.reduce((acc, item) => acc + (item.purchased ? 1 : 0), 0)
+	);
+	let num_items_purchased_label = $derived.by(() => {
+		const unit = num_items_purchased > 1 ? 'items' : 'item';
+		return `${num_items_purchased} ${unit} purchased`;
+	});
+
 	let isEditing = $state(false);
 
 	function saveItem() {
@@ -40,7 +50,7 @@
 	}
 
 	function deleteItem(id: number) {
-	  items = items.filter(item => item.id !== id)
+		items = items.filter((item) => item.id !== id);
 	}
 </script>
 
@@ -69,9 +79,18 @@
 	</form>
 {/if}
 
-{#if items.length > 0}
+{#if reversed_items.length > 0}
+	<div class="header">
+		{#if num_items_purchased > 0 && num_items_purchased < items.length}
+			{num_items_purchased_label}
+		{:else if num_items_purchased == 0}
+			You have not purchased any items yet.
+		{:else}
+			You have bought everything in the shopping cart.
+		{/if}
+	</div>
 	<ul>
-		{#each items as item (item.id)}
+		{#each reversed_items as item (item.id)}
 			<div class="list-item">
 				<li class={[item.purchased && 'strikeout', item.higherPriority && 'priority']}>
 					{item.id} - {item.label}
@@ -84,9 +103,15 @@
 					{/if}
 				</button>
 
-				<button class="btn btn-cancel" onclick={() => deleteItem(item.id)} aria-label="delete an item">
-					<Icon icon="ic:baseline-remove" />
-				</button>
+				{#if !item.purchased}
+					<button
+						class="btn btn-cancel"
+						onclick={() => deleteItem(item.id)}
+						aria-label="delete an item"
+					>
+						<Icon icon="ic:baseline-remove" />
+					</button>
+				{/if}
 			</div>
 		{/each}
 	</ul>
