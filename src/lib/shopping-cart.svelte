@@ -3,7 +3,7 @@
 
 	type Item = { id: number; label: string; purchased: boolean; higherPriority: boolean };
 
-	let header = $state('Shopping List App');
+	let header = $state('Shopping List App - Svelte');
 	let newItem = $state('');
 
 	let newItemHigherPriority = $state(false);
@@ -57,9 +57,13 @@
 <div class="header">
 	<h1>{header}</h1>
 	{#if isEditing}
-		<button class="btn" onclick={() => toggleEdit(false)}>Cancel</button>
+		<button class="btn" onclick={() => toggleEdit(false)} aria-label="Cancel">
+			<Icon icon="ic:outline-close" />
+		</button>
 	{:else}
-		<button class="btn btn-primary" onclick={() => toggleEdit(true)}>Add Item</button>
+		<button class="btn btn-primary" onclick={() => toggleEdit(true)} aria-label="Add Item">
+			<Icon icon="ic:outline-add" />
+		</button>
 	{/if}
 </div>
 
@@ -75,7 +79,9 @@
 			/>
 			<span style:font-weight={newItemHigherPriority ? 'bold' : 'normal'}> Higher Priority</span>
 		</label>
-		<button class="btn btn-primary" disabled={newItem.length < 5}>Save Item</button>
+		<button class="btn btn-primary" disabled={newItem.length < 5} aria-label="Save Item">
+			<Icon icon="ic:outline-save" />
+		</button>
 	</form>
 {/if}
 
