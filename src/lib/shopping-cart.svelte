@@ -19,6 +19,8 @@
 
 	let isEditing = $state(false);
 
+	let highPriorityStyle = $derived.by(() => newItemHigherPriority ? 'bold' : 'normal');
+
 	function saveItem() {
 		if (newItem) {
 			items.push({
@@ -77,7 +79,7 @@
 				type="checkbox"
 				bind:checked={newItemHigherPriority}
 			/>
-			<span style:font-weight={newItemHigherPriority ? 'bold' : 'normal'}> Higher Priority</span>
+			<span style:font-weight={highPriorityStyle}> Higher Priority</span>
 		</label>
 		<button class="btn btn-primary" disabled={newItem.length < 5} aria-label="Save Item">
 			<Icon icon="ic:outline-save" />
@@ -102,11 +104,7 @@
 					{item.id} - {item.label}
 				</li>
 				<button class="btn" onclick={() => togglePurchased(item)} aria-label="purchase an item">
-					{#if !item.purchased}
-						<Icon icon="ic:baseline-check" />
-					{:else}
-						<Icon icon="ic:baseline-close" />
-					{/if}
+					<Icon icon={!item.purchased ? "ic:baseline-check" : "ic:baseline-close" } />
 				</button>
 
 				{#if !item.purchased}
