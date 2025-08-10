@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main # or your default branch
-  workflow_dispatch:  # Also allow manual trigger
+  workflow_dispatch: # Also allow manual trigger
 
 permissions:
   id-token: write
@@ -13,11 +13,11 @@ permissions:
 
 jobs:
   build-and-deploy:
-    environment: 
-      name: github-pages   # Specify the deployment environment here
+    environment:
+      name: github-pages # Specify the deployment environment here
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

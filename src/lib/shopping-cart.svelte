@@ -19,7 +19,7 @@
 
 	let isEditing = $state(false);
 
-	let highPriorityStyle = $derived.by(() => newItemHigherPriority ? 'bold' : 'normal');
+	let highPriorityStyle = $derived.by(() => (newItemHigherPriority ? 'bold' : 'normal'));
 
 	function saveItem() {
 		if (newItem) {
@@ -104,7 +104,7 @@
 					{item.id} - {item.label}
 				</li>
 				<button class="btn" onclick={() => togglePurchased(item)} aria-label="purchase an item">
-					<Icon icon={!item.purchased ? "ic:baseline-check" : "ic:baseline-close" } />
+					<Icon icon={!item.purchased ? 'ic:baseline-check' : 'ic:baseline-close'} />
 				</button>
 
 				{#if !item.purchased}
